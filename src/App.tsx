@@ -2,10 +2,13 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { Flex } from "antd";
+import { Button, Flex, Typography } from "antd";
+
+const { Title } = Typography;
 
 function App() {
   const [count, setCount] = useState(0);
+  const [savedCount, setSavedCount] = useState<number | null>(null);
 
   const increment = (value: number) => {
     setCount((count) => count + value);
@@ -13,6 +16,14 @@ function App() {
 
   const decrement = (value: number) => {
     setCount((count) => count - value);
+  };
+
+  const saveCount = () => {
+    setSavedCount(count);
+  };
+
+  const removeSavedCount = () => {
+    setSavedCount(null);
   };
 
   return (
@@ -26,16 +37,24 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <div className="card">
-        <p>{count}</p>
+      <Flex vertical gap={6} className="card">
+        <Title>Result {count}</Title>
         <Flex gap={6} justify="center">
           <button onClick={() => increment(3)}>increment</button>
           <button onClick={() => decrement(2)}>decrement</button>
         </Flex>
+        <Title>Saved number {savedCount}</Title>
+        <Button type="primary" block onClick={saveCount}>
+          Add number
+        </Button>
+        <Button type="dashed" block danger onClick={removeSavedCount}>
+          Clear number
+        </Button>
+
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
-      </div>
+      </Flex>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
