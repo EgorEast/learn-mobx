@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
-class CounterStore {
+export class CounterStore {
   private _count = 0;
   savedCount: number | null = null;
 
@@ -38,5 +38,3 @@ class CounterStore {
     this.savedCount = null;
   };
 }
-
-export const counterStore = new CounterStore();

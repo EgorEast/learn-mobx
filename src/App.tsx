@@ -1,25 +1,14 @@
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import "./App.css";
-import { Button, Flex, List, Spin, Typography } from "antd";
-import { counterStore } from "./store/counter.store";
-import { observer } from "mobx-react-lite";
+import { Flex, List, Spin, Typography } from "antd";
 import { todosStore } from "./store/todos.store";
 import { useEffect } from "react";
+import { Wrapper } from "./components/Wrapper";
+import "./App.css";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
-const App = observer(() => {
-  const {
-    count,
-    increment,
-    decrement,
-    total,
-    savedCount,
-    saveCount,
-    removeSavedCount,
-  } = counterStore;
-
+const App = () => {
   const { todos, getAll, isLoading } = todosStore;
 
   console.log(todos);
@@ -39,20 +28,9 @@ const App = observer(() => {
         </a>
       </div>
       <h1>Vite + React</h1>
+
       <Flex vertical gap={6} className="card">
-        <Title>Result {count}</Title>
-        <Flex gap={6} justify="center">
-          <button onClick={() => increment(3)}>increment</button>
-          <button onClick={() => decrement(2)}>decrement</button>
-        </Flex>
-        <Title>Saved number {savedCount}</Title>
-        <Button type="primary" block onClick={saveCount}>
-          Add number
-        </Button>
-        <Button type="dashed" block danger onClick={removeSavedCount}>
-          Clear number
-        </Button>
-        <Title>Final number {total}</Title>
+        <Wrapper />
 
         {!isLoading ? (
           <List
@@ -79,6 +57,6 @@ const App = observer(() => {
       </p>
     </>
   );
-});
+};
 
 export default App;
