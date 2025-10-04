@@ -1,5 +1,5 @@
 import axios from "axios";
-import { action, makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, reaction, when } from "mobx";
 
 interface Todo {
   id: number;
@@ -14,6 +14,22 @@ class TodosStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    reaction(
+      () => this.todos.length,
+      (length) => {
+        console.log(`Count of todos changed: ${length}`);
+
+        if (length > 0) console.log("Has todos");
+      },
+    );
+
+    when(
+      () => !this.isLoading && this.todos.length > 0,
+      () => {
+        console.log("Todos loaded");
+      },
+    );
   }
 
   getAll = action(async () => {
