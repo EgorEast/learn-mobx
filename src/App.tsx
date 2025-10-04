@@ -1,30 +1,22 @@
-import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { Button, Flex, Typography } from "antd";
+import { counterStore } from "./store/counter.store";
+import { observer } from "mobx-react-lite";
 
 const { Title } = Typography;
 
-function App() {
-  const [count, setCount] = useState(0);
-  const [savedCount, setSavedCount] = useState<number | null>(null);
-
-  const increment = (value: number) => {
-    setCount((count) => count + value);
-  };
-
-  const decrement = (value: number) => {
-    setCount((count) => count - value);
-  };
-
-  const saveCount = () => {
-    setSavedCount(count);
-  };
-
-  const removeSavedCount = () => {
-    setSavedCount(null);
-  };
+const App = observer(() => {
+  const {
+    count,
+    increment,
+    decrement,
+    total,
+    savedCount,
+    saveCount,
+    removeSavedCount,
+  } = counterStore;
 
   return (
     <>
@@ -50,6 +42,7 @@ function App() {
         <Button type="dashed" block danger onClick={removeSavedCount}>
           Clear number
         </Button>
+        <Title>Final number {total}</Title>
 
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
@@ -60,6 +53,6 @@ function App() {
       </p>
     </>
   );
-}
+});
 
 export default App;
