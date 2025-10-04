@@ -1,11 +1,13 @@
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { Button, Flex, Typography } from "antd";
+import { Button, Flex, List, Spin, Typography } from "antd";
 import { counterStore } from "./store/counter.store";
 import { observer } from "mobx-react-lite";
+import { todosStore } from "./store/todos.store";
+import { useEffect } from "react";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const App = observer(() => {
   const {
@@ -17,6 +19,14 @@ const App = observer(() => {
     saveCount,
     removeSavedCount,
   } = counterStore;
+
+  const { todos, getAll, isLoading } = todosStore;
+
+  console.log(todos);
+
+  useEffect(() => {
+    getAll();
+  }, [getAll]);
 
   return (
     <>
@@ -43,6 +53,22 @@ const App = observer(() => {
           Clear number
         </Button>
         <Title>Final number {total}</Title>
+
+        {!isLoading ? (
+          <List
+            bordered
+            dataSource={todos}
+            renderItem={(todo) => (
+              <List.Item>
+                <Text>
+                  {todo.todo} - {todo.completed ? "Done" : "In progress"}
+                </Text>
+              </List.Item>
+            )}
+          />
+        ) : (
+          <Spin />
+        )}
 
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
